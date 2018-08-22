@@ -22,6 +22,13 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	
+	@GetMapping(value = "test")
+    public ModelAndView test(Model model) { 
+        return new ModelAndView("user/test");
+    }
+	
+	
 	@GetMapping(value = "list")
     public ModelAndView hello(Model model) {
         Iterable<User> UserList = userRepository.findAll();
