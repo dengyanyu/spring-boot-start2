@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<a href="toadd">添加</a><br>
+	<script>
+		function go(p){
+			document.getElementById("pn").value=p;//修改提交参数 页码
+			document.getElementById("sf").submit();//提交表单
+		}
+	</script>
+	<form id="sf" style="border:1px solid red;" method="get">
+		 用户名：<input name="name" th:value="${u.name}"> <br>
+		爱好： <input name="hb" th:value="${u.hb}"><br>
+		请求第几页：<input name="pn" id="pn" th:value="${page.number+1}"><br>
+	   每页显示：<input style="width:15px;" name="ps" th:value="${page.size}"><br>
+		 <input type="submit" value="查询">
+   	</form>
+   	共<span th:text="${page.totalPages}"></span>页,当前<span th:text="${page.number+1}"></span>页
+   	<a href="javascript:go(1)">首页</a> 
+    <a th:href="@{'javascript:go('+${page.number}+')'}">上一页</a> 
+    
+    <a th:href="@{'javascript:go('+${page.number-2}+')'}"  th:text="${page.number-2}" th:if="${page.number gt 2}"></a> 
+    <a th:href="@{'javascript:go('+${page.number-1}+')'}"  th:text="${page.number-1}"  th:if="${page.number gt 1}"></a> 
+    <a th:href="@{'javascript:go('+${page.number}+')'}"  th:text="${page.number}" th:if="${page.number gt 0}"></a> 
+    <a style="border:2px solid green;padding:2px" href="" th:text="${page.number+1}"></a> 
+        <a th:href="@{'javascript:go('+${page.number+2}+')'}"  th:text="${page.number+2}" th:if="${page.number+1 lt page.totalPages}"></a> 
+    <a th:href="@{'javascript:go('+${page.number+3}+')'}"  th:text="${page.number+3}"  th:if="${page.number+2 lt page.totalPages}"></a> 
+    <a th:href="@{'javascript:go('+${page.number+4}+')'}"  th:text="${page.number+4}" th:if="${page.number+3 lt page.totalPages}"></a> 
+    
+    <a th:href="@{'javascript:go('+${page.number+2}+')'}">下一页</a>
+    <a th:href="@{'javascript:go('+${page.totalPages}+')'}">尾页</a> 
+    
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>爱好</th>
+        </tr>
+        <tr th:each="user : ${page.content}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.name}">海</td>
+            <td th:text="${user.age}">18</td>
+            <td th:text="${user.hb}"></td>
+        </tr>
+    </table>
+  
+</body>
+</html>
